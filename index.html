@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PYXELEWEB — Digital Architecture & Interfaces</title>
+    <meta name="description" content="Vancouver-based boutique studio specializing in premium web experiences.">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://grainy-gradients.vercel.app;">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #080808;
+            --accent: #3b82f6;
+            --text-main: #ffffff;
+            --text-dim: #777;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        /* 初始隐藏页面防止点击劫持 (配合JS解锁) */
+        html { display: none; scroll-behavior: smooth; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body { 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            cursor: none; /* 隐藏原生鼠标 */
+            user-select: none; /* 禁止用户手动选择文字复制 */
+        }
+
+        /* 自定义高级鼠标 */
+        #cursor { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999; }
+        #cursor-blur { position: fixed; width: 50px; height: 50px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none; z-index: 9998; }
+
+        /* 背景纹理 */
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05; pointer-events: none; z-index: 10;
+        }
+
+        /* 导航栏 */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 6%; position: fixed; width: 100%; top: 0; z-index: 1000;
+        }
+        .logo { font-weight: 900; font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+        /* 英雄区 */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; padding: 0 10%;
+        }
+        .hero-label { font-size: 0.7rem; letter-spacing: 4px; color: var(--accent); margin-bottom: 20px; font-weight: 700; }
+        h1 { 
+            font-size: clamp(3rem, 15vw, 9rem); 
+            font-weight: 900; line-height: 0.8; 
+            letter-spacing: -0.05em; margin-left: -5px; 
+        }
+        .hero p { 
+            color: var(--text-dim); font-size: 1.1rem; 
+            max-width: 480px; margin: 40px 0; line-height: 1.6;
+        }
+
+        /* 按钮交互 */
+        .btn {
+            padding: 16px 35px; border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; border-radius: 100px; text-decoration: none;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+            transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            display: inline-block; text-transform: uppercase;
+        }
+        .btn:hover { background: #fff; color: #000; border-color: #fff; transform: translateY(-3px); }
+
+        /* 联系区列表 */
+        .footer-connect { padding: 100px 10%; border-top: 1px solid var(--glass); }
+        .social-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 40px 0; border-bottom: 1px solid var(--glass);
+            text-decoration: none; color: inherit; transition: 0.3s;
+        }
+        .social-row:hover { padding-left: 20px; color: var(--accent); }
+        .social-row h3 { font-size: 2rem; font-weight: 400; }
+        .arrow { font-size: 1.5rem; transition: 0.3s; }
+        .social-row:hover .arrow { transform: translateX(10px); }
+
+        footer { padding: 50px 10%; display: flex; justify-content: space-between; color: #333; font-size: 0.7rem; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; } #cursor, #cursor-blur { display: none; }
+            h1 { font-size: 4rem; }
+            footer { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+       if (self == top) { document.documentElement.style.display = 'block'; } else { top.location = self.location; }
+    </script>
+
+    <div class="noise"></div>
+    <div id="cursor"></div>
+    <div id="cursor-blur"></div>
+
+    <nav>
+        <div class="logo">Pyxeleweb ©</div>
+        <a href="javascript:void(0)" onclick="handleContact()" class="btn">Start a Project</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-label" data-aos="fade-down">Vancouver • Remote</div>
+        <h1 data-aos="fade-up" data-aos-duration="1000">WE BUILD<br>FUTURE<br><span style="color:#111; -webkit-text-stroke: 1px #444;">INTERFACES</span></h1>
+        <p data-aos="fade-up" data-aos-delay="300">
+            A specialized design & code studio. We partner with brands to build high-performance digital environments. Portfolio launching 2026.
+        </p>
+        <div data-aos="fade-up" data-aos-delay="500">
+            <a href="https://instagram.com/Pyxeleweb" target="_blank" rel="noopener noreferrer" class="btn">Instagram ↗</a>
+        </div>
+    </section>
+
+    <section class="footer-connect">
+        <a href="https://instagram.com/Pyxeleweb" target="_blank" rel="noopener noreferrer" class="social-row" data-aos="fade-up">
+            <h3>Instagram</h3>
+            <span class="arrow">→</span>
+        </a>
+        <a href="javascript:void(0)" onclick="handleContact()" class="social-row" data-aos="fade-up" data-aos-delay="100">
+            <h3>Email</h3>
+            <span class="arrow">→</span>
+        </a>
+    </section>
+
+    <footer>
+        <div>PYXELEWEB® DIGITAL STUDIO</div>
+        <div>AVAILABLE FOR WORK 2026</div>
+        <div>LOCATED IN CANADA</div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // 1. 旗舰级平滑鼠标逻辑
+        const cursor = document.getElementById('cursor');
+        const blur = document.getElementById('cursor-blur');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to(blur, { x: e.clientX - 25, y: e.clientY - 25, duration: 0.6, ease: "power3.out" });
+        });
+
+        // 2. 邮件地址简单加密处理 (防垃圾爬虫)
+        function handleContact() {
+            const user = "pexeleweb";
+            const domain = "gmail.com";
+            window.location.href = `mailto:${user}@${domain}`;
+        }
+
+        // 3. 安全防护：防右键与防调试快捷键
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || 
+                (e.ctrlKey && e.keyCode == 85)) {
+                return false;
+            }
+        };
+
+        // 4. 鼠标移入交互增强
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(blur, { scale: 1.5, background: "rgba(255,255,255,0.05)", duration: 0.3 });
+            });
+            link.addEventListener('mouseleave', () => {
+                gsap.to(blur, { scale: 1, background: "transparent", duration: 0.3 });
+            });
+        });
+    </script>
+</body>
+</html>
