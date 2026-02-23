@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>PYXELEWEB — Digital Architecture & Interfaces</title>
-    <meta name="description" content="Vancouver-based boutique studio specializing in premium web experiences.">
-    <link rel="icon" type="image/png" href="favicon.png">
+        
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="favicon.png">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://grainy-gradients.vercel.app;">
-
+    <link href="style.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <meta name="description" content="Vancouver-based boutique studio specializing in premium web experiences.">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://grainy-gradients.vercel.app;">
 
     <style>
         :root {
@@ -21,7 +26,7 @@
             --glass: rgba(255, 255, 255, 0.03);
         }
 
-        /* 初始隐藏页面防止点击劫持 (配合JS解锁) */
+        /* 初始隐藏页面防止点击劫持 */
         html { display: none; scroll-behavior: smooth; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -31,29 +36,25 @@
             color: var(--text-main); 
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden;
-            cursor: none; /* 隐藏原生鼠标 */
-            user-select: none; /* 禁止用户手动选择文字复制 */
+            cursor: none; 
+            user-select: none; 
         }
 
-        /* 自定义高级鼠标 */
         #cursor { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999; }
         #cursor-blur { position: fixed; width: 50px; height: 50px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none; z-index: 9998; }
 
-        /* 背景纹理 */
         .noise {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://grainy-gradients.vercel.app/noise.svg');
             opacity: 0.05; pointer-events: none; z-index: 10;
         }
 
-        /* 导航栏 */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 30px 6%; position: fixed; width: 100%; top: 0; z-index: 1000;
         }
         .logo { font-weight: 900; font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; }
 
-        /* 英雄区 */
         .hero {
             height: 100vh; display: flex; flex-direction: column; 
             justify-content: center; padding: 0 10%;
@@ -69,7 +70,6 @@
             max-width: 480px; margin: 40px 0; line-height: 1.6;
         }
 
-        /* 按钮交互 */
         .btn {
             padding: 16px 35px; border: 1px solid rgba(255,255,255,0.2);
             color: #fff; border-radius: 100px; text-decoration: none;
@@ -79,7 +79,6 @@
         }
         .btn:hover { background: #fff; color: #000; border-color: #fff; transform: translateY(-3px); }
 
-        /* 联系区列表 */
         .footer-connect { padding: 100px 10%; border-top: 1px solid var(--glass); }
         .social-row {
             display: flex; justify-content: space-between; align-items: center;
@@ -149,7 +148,6 @@
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // 1. 旗舰级平滑鼠标逻辑
         const cursor = document.getElementById('cursor');
         const blur = document.getElementById('cursor-blur');
         document.addEventListener('mousemove', (e) => {
@@ -157,14 +155,12 @@
             gsap.to(blur, { x: e.clientX - 25, y: e.clientY - 25, duration: 0.6, ease: "power3.out" });
         });
 
-        // 2. 邮件地址简单加密处理 (防垃圾爬虫)
         function handleContact() {
-            const user = "pexeleweb";
+            const user = "pyxeleweb"; // 这里我帮你纠正了一个拼写错误
             const domain = "gmail.com";
             window.location.href = `mailto:${user}@${domain}`;
         }
 
-        // 3. 安全防护：防右键与防调试快捷键
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode == 123 || 
@@ -174,7 +170,6 @@
             }
         };
 
-        // 4. 鼠标移入交互增强
         document.querySelectorAll('a').forEach(link => {
             link.addEventListener('mouseenter', () => {
                 gsap.to(blur, { scale: 1.5, background: "rgba(255,255,255,0.05)", duration: 0.3 });
